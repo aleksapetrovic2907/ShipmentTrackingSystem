@@ -1,9 +1,17 @@
 using Application.Services;
+using Application.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Register services
 builder.Services.AddSingleton<IShipmentService, ShipmentService>();
+
+// Register FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<ShipmentValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
 
 // Add WebAPI controllers
 builder.Services.AddControllers();

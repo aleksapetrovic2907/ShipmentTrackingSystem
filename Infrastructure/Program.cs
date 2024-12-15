@@ -39,6 +39,10 @@ builder.Services.AddSwaggerGen(options =>
             Email = "aleksa.petrovic2907@gmail.com"
         }
     });
+
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 });
 
 var app = builder.Build();

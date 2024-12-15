@@ -1,4 +1,9 @@
+using Application.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Register services
+builder.Services.AddSingleton<IShipmentService, ShipmentService>();
 
 // Add WebAPI controllers
 builder.Services.AddControllers();

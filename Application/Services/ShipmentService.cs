@@ -13,7 +13,7 @@ namespace Application.Services
         public void AddShipment(Shipment shipment)
         {
             shipment.Id = Guid.NewGuid();
-            shipment.DatumKreiranja = DateTime.UtcNow;
+            shipment.CreatedAt = DateTime.UtcNow;
             _shipments.Add(shipment);
         }
 
@@ -23,9 +23,9 @@ namespace Application.Services
 
             if (targetShipment != null)
             {
-                targetShipment.Naziv = shipment.Naziv;
+                targetShipment.Name = shipment.Name;
                 targetShipment.Status = shipment.Status;
-                targetShipment.DatumIsporuke = shipment.DatumIsporuke;
+                targetShipment.DeliveredAt = shipment.DeliveredAt;
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿using Domain.Enums;
 
-namespace Domain.Model
+namespace Domain.Models
 {
     public class Shipment
     {

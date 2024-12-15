@@ -17,6 +17,10 @@ namespace Infrastructure.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Retrieves all shipments from the system.
+        /// </summary>
+        /// <returns>A list of all available shipments.</returns>
         [HttpGet]
         public IActionResult GetAllShipments()
         {
@@ -24,6 +28,11 @@ namespace Infrastructure.Controllers
             return Ok(_shipmentService.GetAllShipments());
         }
 
+        /// <summary>
+        /// Retrieves a specific shipment by its unique ID.
+        /// </summary>
+        /// <param name="id">The unique ID of the shipment.</param>
+        /// <returns>The requested shipment if found</returns>
         [HttpGet("{id}")]
         public IActionResult GetShipmentById(Guid id)
         {
@@ -39,6 +48,11 @@ namespace Infrastructure.Controllers
             return Ok(targetShipment);
         }
 
+        /// <summary>
+        /// Adds a new shipment to the system.
+        /// </summary>
+        /// <param name="shipment">The shipment details to be added.</param>
+        /// <returns>The created shipment with its assigned ID.</returns>
         [HttpPost]
         public IActionResult AddShipment([FromBody] Shipment shipment)
         {
@@ -46,6 +60,13 @@ namespace Infrastructure.Controllers
             return CreatedAtAction(nameof(GetShipmentById), new { id = shipment.Id }, shipment);
         }
 
+        /// <summary>
+        /// Updates an existing shipment.
+        /// </summary>
+        /// <param name="id">The unique ID of the shipment to update.</param>
+        /// <param name="shipment">The updated shipment details.</param>
+        /// <response code="204">Shipment updated successfully.</response>
+        /// <response code="400">The shipment ID in the request does not match the ID in the payload.</response>
         [HttpPut("{id}")]
         public IActionResult UpdateShipment(Guid id, [FromBody] Shipment shipment)
         {
@@ -60,6 +81,12 @@ namespace Infrastructure.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes a shipment by its unique ID.
+        /// </summary>
+        /// <param name="id">The unique ID of the shipment to delete.</param>
+        /// <response code="204">Shipment deleted successfully.</response>
+        /// <response code="404">Shipment not found.</response>
         [HttpDelete("{id}")]
         public IActionResult DeleteShipment(Guid id)
         {

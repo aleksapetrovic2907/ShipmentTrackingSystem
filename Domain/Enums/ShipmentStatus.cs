@@ -2,8 +2,8 @@
 {
     public enum ShipmentStatus
     {
-        NaPutu,
-        Isporuceno,
-        USkladistu
+        Warehouse,
+        OnTheWay,
+        Delivered
     }
 }

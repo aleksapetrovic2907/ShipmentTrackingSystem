@@ -2,8 +2,17 @@ using Application.Services;
 using Application.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .MinimumLevel.Information()
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Use Serilog as the logging provider
+builder.Host.UseSerilog();
 
 // Register services
 builder.Services.AddSingleton<IShipmentService, ShipmentService>();

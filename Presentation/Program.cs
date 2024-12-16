@@ -18,6 +18,7 @@ namespace Presentation
             });
 
             builder.Services.AddScoped<ShipmentService>();
+            builder.Services.AddScoped<AuthService>();
 
             await builder.Build().RunAsync();
         }

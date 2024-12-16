@@ -1,0 +1,48 @@
+﻿@using Domain.Models
+
+@page "/shipments/{Id:guid}"
+
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+<h3>Shipment Details</h3>
+
+@if (shipment == null)
+{
+    <p>Loading shipment details...</p>
+}
+else
+{
+    <div>
+        <p><strong>Name:</strong> @shipment.Name</p>
+        <p><strong>Status:</strong> @shipment.Status</p>
+        <p><strong>Created At:</strong> @shipment.CreatedAt.ToShortDateString()</p>
+        <p><strong>Delivered At:</strong> @(shipment.DeliveredAt?.ToShortDateString() ?? "Not Delivered")</p>
+    </div>
+
+    <button @onclick="NavigateBack">Back to Shipments</button>
+}
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private Shipment? shipment;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            shipment = await Http.GetFromJsonAsync<Shipment>($"shipments/{Id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching shipment details: {ex.Message}");
+        }
+    }
+
+    private void NavigateBack()
+    {
+        NavManager.NavigateTo("/shipments");
+    }
+}

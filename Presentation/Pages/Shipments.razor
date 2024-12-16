@@ -29,13 +29,21 @@ else
         <tbody>
             @foreach (var shipment in shipments)
             {
-                <tr @onclick="() => NavigateToDetails(shipment.Id)" style="cursor: pointer">
-                    <td>@shipment.Name</td>
+                <tr>
+                    <td>
+                        <a href="#" @onclick="() => NavigateToDetails(shipment.Id)">
+                            @shipment.Name
+                        </a>
+                    </td>
                     <td>@shipment.Status</td>
                     <td>@shipment.CreatedAt.ToShortDateString()</td>
                     <td>@(shipment.DeliveredAt?.ToShortDateString() ?? "Not Delivered")</td>
+                    
+                    <!-- TODO: Hide if user is not authenticated (mock-up auth) -->
                     <td>
-                        <button @onclick="() => DeleteShipment(shipment.Id)">Delete</button>
+                        <button @onclick="() => DeleteShipment(shipment.Id)">
+                            Delete
+                        </button>
                     </td>
                 </tr>
             }
@@ -81,7 +89,7 @@ else
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine($"Shipment {shipmentId} deleted successfully.");
-                
+
                 // Refresh the list.
                 await LoadShipments();
             }

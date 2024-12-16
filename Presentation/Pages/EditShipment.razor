@@ -1,6 +1,7 @@
 ﻿@using Domain.Enums
 @using Domain.Models
 @using Presentation.Services
+@using Blazored.FluentValidation
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components
 @page "/shipments/edit/{Id:guid?}"
@@ -10,7 +11,7 @@
 <h3>@(IsNewShipment ? "Create new shipment" : "Update shipment")</h3>
 
 <EditForm Model="@shipment" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
+    <FluentValidationValidator />
     <ValidationSummary />
 
     <div>

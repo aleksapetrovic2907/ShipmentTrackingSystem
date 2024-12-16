@@ -2,7 +2,7 @@
 using Application.Services;
 using Domain.Models;
 
-namespace Infrastructure.Endpoints
+namespace Infrastructure.Controllers
 {
     [ApiController]
     [Route("api/shipments")]

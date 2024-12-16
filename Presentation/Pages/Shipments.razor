@@ -2,6 +2,7 @@
 
 @page "/shipments"
 @inject HttpClient Http
+@inject NavigationManager NavManager
 
 <h3>Shipments List</h3>
 
@@ -27,7 +28,7 @@ else
         <tbody>
             @foreach (var shipment in shipments)
             {
-                <tr>
+                <tr @onclick="() => NavigateToDetails(shipment.Id)" style="cursor: pointer">
                     <td>@shipment.Name</td>
                     <td>@shipment.Status</td>
                     <td>@shipment.CreatedAt.ToShortDateString()</td>
@@ -51,5 +52,10 @@ else
         {
             Console.WriteLine($"Error fetching shipments: {ex.Message}");
         }
+    }
+
+    private void NavigateToDetails(Guid shipmentId)
+    {
+        NavManager.NavigateTo($"/shipments/{shipmentId}");
     }
 }

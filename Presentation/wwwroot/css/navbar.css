@@ -1,0 +1,29 @@
+﻿.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    background-color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navbar-links a {
+    padding: 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: lighter;
+    transition-duration: .15s;
+}
+
+.navbar-links a:hover {
+    color: var(--text-dark-highlighted);
+    background-color: var(--highlight-color);
+}

@@ -1,0 +1,10 @@
+﻿:root {
+    --font-primary: 'Poppins', sans-serif;
+}
+
+/* Apply the Font Globally */
+* {
+    font-family: var(--font-primary);
+    margin: 0;
+    padding: 0;
+}

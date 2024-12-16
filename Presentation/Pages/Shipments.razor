@@ -33,10 +33,9 @@ else
             {
                 <tr>
                     <td>
-                        <!-- TODO: Checkout Blazors NavLink -->
-                        <span @onclick="() => NavigateToDetails(shipment.Id)">
+                        <NavLink class="link" href="/shipments/@shipment.Id">
                             @shipment.Name
-                        </span>
+                        </NavLink>
                     </td>
                     <td>@shipment.Status</td>
                     <td>@shipment.CreatedAt.ToShortDateString()</td>
@@ -82,10 +81,5 @@ else
         {
             Console.WriteLine($"Failed to delete shipment {shipmentId}");
         }
-    }
-
-    private void NavigateToDetails(Guid shipmentId)
-    {
-        NavManager.NavigateTo($"/shipments/{shipmentId}");
     }
 }

@@ -22,6 +22,7 @@ namespace Infrastructure.Endpoints
         /// </summary>
         /// <returns>A list of all available shipments.</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetAllShipments()
         {
             _logger.LogInformation("All shipments retrieved successfully");
@@ -34,6 +35,8 @@ namespace Infrastructure.Endpoints
         /// <param name="id">The unique ID of the shipment.</param>
         /// <returns>The requested shipment if found</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetShipmentById(Guid id)
         {
             var targetShipment = _shipmentService.GetShipmentById(id);
@@ -54,6 +57,8 @@ namespace Infrastructure.Endpoints
         /// <param name="shipment">The shipment details to be added.</param>
         /// <returns>The created shipment with its assigned ID.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult AddShipment([FromBody] Shipment shipment)
         {
             _shipmentService.AddShipment(shipment);
@@ -68,6 +73,8 @@ namespace Infrastructure.Endpoints
         /// <response code="204">Shipment updated successfully.</response>
         /// <response code="400">The shipment ID in the request does not match the ID in the payload.</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult UpdateShipment(Guid id, [FromBody] Shipment shipment)
         {
             if (id != shipment.Id)
@@ -88,6 +95,8 @@ namespace Infrastructure.Endpoints
         /// <response code="204">Shipment deleted successfully.</response>
         /// <response code="404">Shipment not found.</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult DeleteShipment(Guid id)
         {
             var shipment = _shipmentService.GetShipmentById(id);

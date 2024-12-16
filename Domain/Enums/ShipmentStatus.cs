@@ -2,7 +2,7 @@
 {
     public enum ShipmentStatus
     {
-        Warehouse,
+        InWarehouse,
         OnTheWay,
         Delivered
     }

@@ -31,9 +31,10 @@ else
             {
                 <tr>
                     <td>
-                        <a href="#" @onclick="() => NavigateToDetails(shipment.Id)">
+                        <!-- TODO: Checkout Blazors NavLink -->
+                        <span @onclick="() => NavigateToDetails(shipment.Id)">
                             @shipment.Name
-                        </a>
+                        </span>
                     </td>
                     <td>@shipment.Status</td>
                     <td>@shipment.CreatedAt.ToShortDateString()</td>

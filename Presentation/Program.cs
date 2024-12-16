@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Presentation.Services;
 
 namespace Presentation
 {
@@ -15,6 +16,8 @@ namespace Presentation
             {
                 BaseAddress = new Uri("https://localhost:5001/api/")
             });
+
+            builder.Services.AddScoped<ShipmentService>();
 
             await builder.Build().RunAsync();
         }

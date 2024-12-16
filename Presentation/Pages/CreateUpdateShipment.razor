@@ -1,0 +1,77 @@
+﻿@using Domain.Enums
+@using Domain.Models
+@using Presentation.Services
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components
+@page "/shipments/edit/{Id:guid?}"
+@inject ShipmentService ShipmentService
+@inject NavigationManager NavManager
+
+<h3>@(IsNewShipment ? "Create new shipment" : "Update shipment")</h3>
+
+<EditForm Model="@shipment" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="Name">Shipment Name</label>
+        <InputText id="Name" @bind-Value="shipment.Name" />
+    </div>
+
+    @if (!IsNewShipment)
+    {
+        <div>
+            <label for="Status">Status</label>
+            <InputSelect id="Status" @bind-Value="shipment.Status">
+                <option value="InWarehouse">In Warehouse</option>
+                <option value="OnTheWay">On The Way</option>
+                <option value="Delivered">Delivered</option>
+            </InputSelect>
+        </div>
+
+        @if (shipment.Status == ShipmentStatus.Delivered)
+        {
+            <div class="form-group">
+                <label for="DeliveredAt">Delivery Date</label>
+                <InputDate id="DeliveredAt" class="form-control" @bind-Value="shipment.DeliveredAt" />
+            </div>
+        }
+    }
+
+    <button type="submit">Save</button>
+    <button type="button" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    private Shipment shipment = new();
+
+    bool IsNewShipment => !Id.HasValue;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!IsNewShipment)
+        {
+            shipment = await ShipmentService.GetShipmentByIdAsync(Id.Value) ?? new Shipment();
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        bool result = IsNewShipment
+            ? await ShipmentService.AddShipmentAsync(shipment)
+            : await ShipmentService.UpdateShipmentAsync(shipment);
+
+        if (result)
+        {
+            Console.WriteLine("Shipment saved successfully.");
+            NavManager.NavigateTo("/shipments");
+        }
+        else
+        {
+            Console.WriteLine("Error saving shipment.");
+        }
+    }
+
+    private void Cancel() => NavManager.NavigateTo("/shipments");
+}

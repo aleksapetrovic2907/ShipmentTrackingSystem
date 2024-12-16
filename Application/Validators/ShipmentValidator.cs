@@ -11,9 +11,9 @@ namespace Application.Validators
                 .NotEmpty().WithMessage("Shipment name cannot be empty");
 
             RuleFor(s => s.DeliveredAt)
-                .GreaterThanOrEqualTo(DateTime.UtcNow)
+                .GreaterThanOrEqualTo(s => s.CreatedAt)
                 .When(s => s.DeliveredAt.HasValue)
-                .WithMessage("Delivery date must be in the future");
+                .WithMessage("Delivery date must be on or after the creation date");
 
             RuleFor(s => s.Status)
                 .IsInEnum().WithMessage("Invalid shipment status");

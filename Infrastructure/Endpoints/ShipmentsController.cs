@@ -21,6 +21,7 @@ namespace Infrastructure.Endpoints
         /// Retrieves all shipments from the system.
         /// </summary>
         /// <returns>A list of all available shipments.</returns>
+        /// <response code="200">Returns a list of all available shipments.</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetAllShipments()
@@ -34,6 +35,8 @@ namespace Infrastructure.Endpoints
         /// </summary>
         /// <param name="id">The unique ID of the shipment.</param>
         /// <returns>The requested shipment if found</returns>
+        /// <response code="200">Returns the shipment if found.</response>
+        /// <response code="404">If the shipment is not found.</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

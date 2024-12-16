@@ -46,9 +46,9 @@ else
                     {
                         <td>
                             <button @onclick="() => DeleteShipment(shipment.Id)">
-                            Delete
-                        </button>
-                    </td>
+                                Delete
+                            </button>
+                        </td>
                     }
                 </tr>
             }
@@ -61,6 +61,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        AuthService.OnAuthStateChanged += StateHasChanged;
         await LoadShipments();
     }
 

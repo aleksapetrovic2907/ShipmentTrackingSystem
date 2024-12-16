@@ -1,0 +1,19 @@
+﻿@inject Presentation.Services.AuthService AuthService
+
+<button @onclick="ToggleAuth">
+    @(AuthService.IsAuthenticated ? "Logout" : "Login")
+</button>
+
+@code {
+    private void ToggleAuth()
+    {
+        if (AuthService.IsAuthenticated)
+        {
+            AuthService.LogOut();
+        }
+        else
+        {
+            AuthService.LogIn();
+        }
+    }
+}

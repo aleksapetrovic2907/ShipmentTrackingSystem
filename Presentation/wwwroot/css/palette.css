@@ -1,8 +1,9 @@
 ﻿:root {
-    --primary-color: #060640; /* Dark Blue */
-    --secondary-color: #4b8dde; /* Soft Sky Blue */
-    --accent-color: #063f95; /* Deep Blue */
-    --highlight-color: #ecf9ff; /* Light Blue */
+    --primary-color: #71a3ff; /* Dark Blue */
+    --secondary-color: #a7c6ff; /* Soft Sky Blue */
+    --accent-color: #164bac; /* Deep Blue */
+    --highlight-color: #a4c4ff; /* Light Blue */
+    --light-highlight-color: #ecfbff; /* Lighter Blue */
     --background-color: #F4F7FB; /* Light Gray Background */
 
     --text-dark: #2E2E2E; /* Dark Text */
@@ -10,8 +11,12 @@
     --text-dark-highlighted: #5c5c5c; /* Dark Text */
     --text-light-highlighted: #c0c0c0; /* White Text */
 
-    --success-color: #2aa387; /* Muted Green for */
-    --danger-color: #ca3b3b; /* Deep Red for Errors */
+    --success-color: #2aa387; /* Muted Green */
+    --success-color-darkened: #136e59; /* Muted Green darkened*/
+    --danger-color: #ca3b3b; /* Deep Red */
+    --danger-color-darkened: #851212; /* Deep Red darkened*/
     --warning-color: #d9af3a; /* Muted Gold */
-    --info-color: #4b8dde; /* Muted Cyan for */
+    --warning-color-darkened: #98771b; /* Muted Gold darkened*/
+    --info-color: #71a3ff; /* Muted Cyan */
+    --info-color-darkened: #71a3ff; /* Muted Cyan darkened*/
 }

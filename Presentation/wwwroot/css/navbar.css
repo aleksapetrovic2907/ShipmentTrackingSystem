@@ -25,5 +25,5 @@
 
 .navbar-links a:hover {
     color: var(--text-dark-highlighted);
-    background-color: var(--highlight-color);
+    background-color: var(--light-highlight-color);
 }

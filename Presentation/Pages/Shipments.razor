@@ -33,7 +33,7 @@ else
             {
                 <tr>
                     <td>
-                        <NavLink class="link" href="/shipments/@shipment.Id">
+                        <NavLink class="link" href=@($"/shipments/{shipment.Id}")>
                             @shipment.Name
                         </NavLink>
                     </td>

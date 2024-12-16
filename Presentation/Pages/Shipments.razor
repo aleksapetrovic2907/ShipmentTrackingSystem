@@ -1,0 +1,55 @@
+﻿@using Domain.Models
+
+@page "/shipments"
+@inject HttpClient Http
+
+<h3>Shipments List</h3>
+
+@if (shipments == null)
+{
+    <p>Loading shipments...</p>
+}
+else if (!shipments.Any())
+{
+    <p>No shipments found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Delivered At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var shipment in shipments)
+            {
+                <tr>
+                    <td>@shipment.Name</td>
+                    <td>@shipment.Status</td>
+                    <td>@shipment.CreatedAt.ToShortDateString()</td>
+                    <td>@(shipment.DeliveredAt?.ToShortDateString() ?? "Not Delivered")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Shipment> shipments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            shipments = await Http.GetFromJsonAsync<List<Shipment>>("shipments");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching shipments: {ex.Message}");
+        }
+    }
+}

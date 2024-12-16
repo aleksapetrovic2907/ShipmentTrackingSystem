@@ -45,11 +45,23 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath);
 });
 
+// Enable CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 // Enable Swagger for API testing
 app.UseSwagger();
 app.UseSwaggerUI();
+
+// Enable CORS for all requests
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline
 app.UseHttpsRedirection();

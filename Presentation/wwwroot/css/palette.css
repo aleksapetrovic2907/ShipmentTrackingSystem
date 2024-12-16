@@ -1,0 +1,18 @@
+﻿:root {
+    /* Main Pastel Theme Colors */
+    --main-color: #C9E4DE; /* Soft Mint Green */
+    --secondary-color: #F7D9C4; /* Soft Peach */
+    --accent-color: #F4B393; /* Muted Coral */
+    --highlight-color: #D2D2F0; /* Light Lavender */
+    --background-color: #F9F9F9; /* Light Gray */
+
+    /* Text Colors */
+    --text-dark: #3A3A3A; /* Dark Text */
+    --text-light: #FFFFFF; /* Light Text */
+
+    /* Action Colors */
+    --success-color: #BEE3DB; /* Soft Green */
+    --danger-color: #F6A6A3; /* Soft Red */
+    --warning-color: #F8D5A3; /* Soft Yellow */
+    --info-color: #A8D9F0; /* Soft Blue */
+}

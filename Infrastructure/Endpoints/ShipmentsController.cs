@@ -11,6 +11,11 @@ namespace Infrastructure.Endpoints
         private readonly IShipmentService _shipmentService;
         private readonly ILogger<ShipmentsController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShipmentsController"/> class.
+        /// </summary>
+        /// <param name="shipmentService">The service responsible for shipment operations.</param>
+        /// <param name="logger">The logger used for logging application events.</param>
         public ShipmentsController(IShipmentService shipmentService, ILogger<ShipmentsController> logger)
         {
             _shipmentService = shipmentService;

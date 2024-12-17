@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Application.Services;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Infrastructure.Controllers
 {
@@ -105,6 +106,7 @@ namespace Infrastructure.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         public IActionResult DeleteShipment(Guid id)
         {
             var shipment = _shipmentService.GetShipmentById(id);

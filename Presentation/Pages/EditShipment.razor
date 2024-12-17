@@ -62,6 +62,9 @@
         if (!IsNewShipment)
         {
             shipment = await ShipmentService.GetShipmentByIdAsync(Id.Value) ?? new Shipment();
+            editContext = new EditContext(shipment);
+            validationMessageStore = new ValidationMessageStore(editContext);
+            editContext.OnFieldChanged += ValidateField;
         }
     }
 

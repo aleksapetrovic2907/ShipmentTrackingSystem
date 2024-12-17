@@ -180,3 +180,33 @@ select.input-validation-error {
     font-size: 0.875rem;
     margin-top: 0.25rem;
 }
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-bar input[type="text"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--highlight-color);
+    border-radius: 4px;
+    width: 250px;
+}
+
+.search-bar select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--highlight-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+    color: var(--text-dark);
+}
+
+.search-bar input[type="text"]:focus,
+.search-bar select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}

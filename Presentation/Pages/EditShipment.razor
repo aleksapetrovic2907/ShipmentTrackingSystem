@@ -1,7 +1,6 @@
 ﻿@using Domain.Enums
 @using Domain.Models
 @using Presentation.Services
-@using Blazored.FluentValidation
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components
 @page "/shipments/edit/{Id:guid?}"
@@ -10,13 +9,11 @@
 
 <h3>@(IsNewShipment ? "Create new shipment" : "Update shipment")</h3>
 
-<EditForm Model="@shipment" OnValidSubmit="HandleSubmit">
-    <FluentValidationValidator />
-    <ValidationSummary />
-
+<EditForm EditContext="@editContext" OnValidSubmit="HandleSubmit">
     <div>
         <label for="Name">Shipment Name</label>
         <InputText id="Name" @bind-Value="shipment.Name" />
+        <ValidationMessage For="@(() => shipment.Name)" />
     </div>
 
     @if (!IsNewShipment)
@@ -35,6 +32,7 @@
             <div class="form-group">
                 <label for="DeliveredAt">Delivery Date</label>
                 <InputDate id="DeliveredAt" class="form-control" @bind-Value="shipment.DeliveredAt" />
+                <ValidationMessage For="@(() => shipment.DeliveredAt)" />
             </div>
         }
     }
@@ -49,12 +47,66 @@
 
     bool IsNewShipment => !Id.HasValue;
 
+    private EditContext editContext;
+    private ValidationMessageStore validationMessageStore;
+
+    private string nameErrorMessage = string.Empty;
+    private string deliveryDateErrorMessage = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
+        editContext = new EditContext(shipment);
+        validationMessageStore = new ValidationMessageStore(editContext);
+        editContext.OnFieldChanged += ValidateField;
+
         if (!IsNewShipment)
         {
             shipment = await ShipmentService.GetShipmentByIdAsync(Id.Value) ?? new Shipment();
         }
+    }
+
+    private void ValidateField(object? sender, FieldChangedEventArgs e)
+    {
+        // Clear existing errors for the changed field
+        validationMessageStore.Clear(e.FieldIdentifier);
+
+        // Apply validation rules for "Name" field
+        if (e.FieldIdentifier.FieldName == nameof(shipment.Name))
+        {
+            if (string.IsNullOrWhiteSpace(shipment.Name))
+            {
+                validationMessageStore.Add(e.FieldIdentifier, "Shipment name cannot be empty");
+            }
+        }
+
+        if (e.FieldIdentifier.FieldName == nameof(shipment.Status))
+        {
+            if (shipment.Status != ShipmentStatus.Delivered)
+            {
+                validationMessageStore.Clear(new FieldIdentifier(shipment, nameof(shipment.DeliveredAt)));
+                shipment.DeliveredAt = null;
+            }
+        }
+
+        // Apply validation rules for "Status" field
+        if (e.FieldIdentifier.FieldName == nameof(shipment.DeliveredAt))
+        {
+            if (shipment.DeliveredAt != null)
+            {
+                if (shipment.DeliveredAt.Value.Date < shipment.CreatedAt.Date)
+                    validationMessageStore.Add(e.FieldIdentifier, "Delivery date cannot be before creation date");
+
+                if (shipment.DeliveredAt > DateTime.UtcNow.Date)
+                    validationMessageStore.Add(e.FieldIdentifier, "Delivery date cannot be in the future");
+            }
+            else
+            {
+                validationMessageStore.Add(e.FieldIdentifier, "Delivery date must exist if status is delivered");
+            }
+        }
+
+        // Notify the EditContext of updated validation messages
+        editContext.NotifyValidationStateChanged();
     }
 
     private async Task HandleSubmit()
@@ -65,12 +117,7 @@
 
         if (result)
         {
-            Console.WriteLine("Shipment saved successfully.");
             NavManager.NavigateTo("/shipments");
-        }
-        else
-        {
-            Console.WriteLine("Error saving shipment.");
         }
     }
 

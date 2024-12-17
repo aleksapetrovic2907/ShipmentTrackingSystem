@@ -7,10 +7,10 @@
 @inject ShipmentService ShipmentService
 @inject NavigationManager NavManager
 
-<h3>@(IsNewShipment ? "Create new shipment" : "Update shipment")</h3>
+<h1>@(IsNewShipment ? "Create new shipment" : "Edit shipment")</h1>
 
 <EditForm EditContext="@editContext" OnValidSubmit="HandleSubmit">
-    <div>
+    <div class="form-group">
         <label for="Name">Shipment Name</label>
         <InputText id="Name" @bind-Value="shipment.Name" />
         <ValidationMessage For="@(() => shipment.Name)" />
@@ -18,7 +18,7 @@
 
     @if (!IsNewShipment)
     {
-        <div>
+        <div class="form-group">
             <label for="Status">Status</label>
             <InputSelect id="Status" @bind-Value="shipment.Status">
                 <option value="InWarehouse">In Warehouse</option>
@@ -37,8 +37,8 @@
         }
     }
 
-    <button type="submit">Save</button>
-    <button type="button" @onclick="Cancel">Cancel</button>
+    <button class="btn btn-primary" type="submit">Save</button>
+    <button class="btn btn-warning" type="button" @onclick="Cancel">Cancel</button>
 </EditForm>
 
 @code {

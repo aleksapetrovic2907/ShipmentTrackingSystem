@@ -10,11 +10,21 @@
 
 <h1>Shipments List</h1>
 
-@if (shipments == null)
+<div class="search-bar">
+    <input type="text" placeholder="Search by Name" @bind="searchTerm" @bind:after="ApplyFilters" />
+    <select @bind="selectedStatus" @bind:after="ApplyFilters">
+        <option value="">All Statuses</option>
+        <option value="InWarehouse">In Warehouse</option>
+        <option value="OnTheWay">On The Way</option>
+        <option value="Delivered">Delivered</option>
+    </select>
+</div>
+
+@if (filteredShipments == null)
 {
     <p>Loading shipments...</p>
 }
-else if (!shipments.Any())
+else if (!filteredShipments.Any())
 {
     <p>No shipments found.</p>
 }
@@ -31,7 +41,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var shipment in shipments)
+            @foreach (var shipment in filteredShipments)
             {
                 <tr>
                     <td>
@@ -60,7 +70,10 @@ else
 }
 
 @code {
-    private List<Shipment> shipments;
+    private List<Shipment> shipments = new();
+    private List<Shipment> filteredShipments = new();
+    private string searchTerm = string.Empty;
+    private string selectedStatus = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -71,6 +84,15 @@ else
     private async Task LoadShipments()
     {
         shipments = await ShipmentService.GetAllShipmentsAsync();
+        ApplyFilters();
+    }
+
+    private void ApplyFilters()
+    {
+        filteredShipments = shipments
+            .Where(s => string.IsNullOrWhiteSpace(searchTerm) || s.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+            .Where(s => string.IsNullOrWhiteSpace(selectedStatus) || s.Status.ToString() == selectedStatus)
+            .ToList();
     }
 
     private async Task DeleteShipment(Guid shipmentId)

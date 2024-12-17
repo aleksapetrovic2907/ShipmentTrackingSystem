@@ -28,7 +28,7 @@ namespace Presentation.Services
         /// </summary>
         public async Task LogInAsync()
         {
-            var response = await _httpClient.PostAsync("api/auth/login", null);
+            var response = await _httpClient.PostAsync("auth/login", null);
 
             if (response.IsSuccessStatusCode)
             {
@@ -48,7 +48,7 @@ namespace Presentation.Services
         /// </summary>
         public async Task LogOutAsync()
         {
-            var response = await _httpClient.PostAsync("api/auth/logout", null);
+            var response = await _httpClient.PostAsync("auth/logout", null);
 
             if (response.IsSuccessStatusCode)
             {

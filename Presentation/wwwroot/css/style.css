@@ -8,6 +8,10 @@
     padding: 0;
 }
 
+h1 {
+    margin-bottom: 2rem;
+}
+
 .content-container {
     padding: 2rem 2rem;
     max-width: 1200px;
@@ -27,20 +31,21 @@
     display: inline-block;
 }
 
+.btn:active {
+    transform: scale(0.9);
+}
+
 .btn-primary {
     background-color: var(--primary-color);
     color: var(--text-light);
 }
 
-    .btn-primary:hover {
-        background-color: var(--accent-color); /* Darker blue on hover */
-    }
+.btn-primary:hover {
+    background-color: var(--accent-color);
+}
 
-    .btn-primary:active {
-        transform: scale(0.9); /* Slight click effect */
-    }
 
-/* Success Button */
+
 .btn-success {
     background-color: var(--success-color);
     color: var(--text-light);
@@ -48,4 +53,130 @@
 
 .btn-success:hover {
     background-color: var(--success-color-darkened);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: var(--text-light);
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-color-darkened);
+}
+
+.btn-warning {
+    background-color: var(--warning-color);
+    color: var(--text-light);
+}
+
+.btn-warning:hover {
+    background-color: var(--warning-color-darkened);
+}
+
+.btn-info {
+    background-color: var(--info-color);
+    color: var(--text-light);
+}
+
+.btn-info:hover {
+    background-color: var(--info-color-darkened);
+}
+
+/* Global Table Styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 16px;
+    text-align: left;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+/* Table Header */
+.table th {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1rem;
+}
+
+/* Table Rows */
+.table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--highlight-color);
+}
+
+/* Alternating Row Colors */
+.table tr:nth-child(even) {
+    background-color: var(--background-color);
+}
+
+/* Hover Effect */
+.table tr:hover {
+    background-color: var(--highlight-color);
+}
+
+/* Center Text for Specific Columns */
+.table .center {
+    text-align: center;
+}
+
+/* Highlight Important Rows */
+.table .highlight-row {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+}
+
+.table .btn {
+    width: 1rem;
+    height: 1rem;    
+}
+
+.action-btn {
+    padding: 6px;
+    margin-right: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    text-decoration: none;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: lighter;
+    margin-bottom: 0.25rem;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--highlight-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+}
+
+input.input-validation-error,
+select.input-validation-error {
+    border-color: var(--danger-color) !important;
+    background-color: #f8d7da !important;
+}
+
+.validation-message {
+    color: var(--danger-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
 }

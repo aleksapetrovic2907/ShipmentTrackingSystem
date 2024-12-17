@@ -11,6 +11,11 @@ namespace Application.Validators
                 .NotEmpty().WithMessage("Shipment name cannot be empty");
 
             RuleFor(s => s.DeliveredAt)
+                .NotNull()
+                .When(s => s.Status == Domain.Enums.ShipmentStatus.Delivered)
+                .WithMessage("Delivery date must exist if status is delivered");
+
+            RuleFor(s => s.DeliveredAt)
                 .GreaterThanOrEqualTo(s => s.CreatedAt.Date)
                 .When(s => s.DeliveredAt.HasValue)
                 .WithMessage("Delivery date must be on or after the creation date");

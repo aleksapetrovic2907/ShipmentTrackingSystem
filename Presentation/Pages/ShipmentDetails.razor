@@ -13,14 +13,26 @@
 }
 else
 {
-    <div>
-        <p><strong>Name:</strong> @shipment.Name</p>
-        <p><strong>Status:</strong> @shipment.Status</p>
-        <p><strong>Created At:</strong> @shipment.CreatedAt.ToShortDateString()</p>
-        <p><strong>Delivered At:</strong> @(shipment.DeliveredAt?.ToShortDateString() ?? "Not Delivered")</p>
-    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Delivered At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@shipment.Name</td>
+                <td>@shipment.Status</td>
+                <td>@shipment.CreatedAt.ToShortDateString()</td>
+                <td>@(shipment.DeliveredAt?.ToShortDateString() ?? "Not Delivered")</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <button @onclick="NavigateBack">Back to Shipments</button>
+    <button class="btn btn-primary" @onclick="NavigateBack">Back to Shipments</button>
 }
 
 @code {

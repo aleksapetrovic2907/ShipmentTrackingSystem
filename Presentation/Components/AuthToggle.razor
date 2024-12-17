@@ -5,15 +5,15 @@
 </button>
 
 @code {
-    private void ToggleAuth()
+    private async Task ToggleAuth()
     {
         if (AuthService.IsAuthenticated)
         {
-            AuthService.LogOut();
+            await AuthService.LogOutAsync();
         }
         else
         {
-            AuthService.LogIn();
+            await AuthService.LogInAsync();
         }
     }
 }

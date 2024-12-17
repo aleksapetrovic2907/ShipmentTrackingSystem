@@ -1,8 +1,8 @@
-﻿namespace Presentation.Services
+﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
+
+namespace Presentation.Services
 {
-    /// <summary>
-    /// Service for managing user authentication state.
-    /// </summary>
     public class AuthService
     {
         /// <summary>
@@ -15,22 +15,54 @@
         /// </summary>
         public event Action? OnAuthStateChanged;
 
-        /// <summary>
-        /// Logs the user in by setting the authentication flag to true.
-        /// </summary>
-        public void LogIn()
+        private readonly HttpClient _httpClient;
+        private string? _jwtToken;
+
+        public AuthService(HttpClient httpClient)
         {
-            IsAuthenticated = true;
-            OnAuthStateChanged?.Invoke();
+            _httpClient = httpClient;
         }
 
         /// <summary>
-        /// Logs the user out by setting the authentication flag to false.
+        /// Logs the user in by sending a request to the backend.
         /// </summary>
-        public void LogOut()
+        public async Task LogInAsync()
         {
-            IsAuthenticated = false;
-            OnAuthStateChanged?.Invoke();
+            var response = await _httpClient.PostAsync("api/auth/login", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<AuthResponse>();
+                _jwtToken = result?.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", _jwtToken);
+
+                IsAuthenticated = true;
+                OnAuthStateChanged?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Logs the user out by clearing the JWT token.
+        /// </summary>
+        public async Task LogOutAsync()
+        {
+            var response = await _httpClient.PostAsync("api/auth/logout", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                _jwtToken = null;
+                _httpClient.DefaultRequestHeaders.Authorization = null;
+
+                IsAuthenticated = false;
+                OnAuthStateChanged?.Invoke();
+            }
+        }
+
+        private class AuthResponse
+        {
+            public string? Token { get; set; }
         }
     }
 }

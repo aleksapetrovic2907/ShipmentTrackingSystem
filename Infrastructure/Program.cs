@@ -2,8 +2,11 @@ using Application.Services;
 using Application.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Text;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -22,6 +25,21 @@ builder.Services.AddSingleton<IShipmentService, ShipmentService>();
 builder.Services.AddValidatorsFromAssemblyContaining<ShipmentValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
+
+// Add services for JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes("SecretKeyThatCanBeReadByAnyoneOnGithub"))
+        };
+    });
 
 // Add WebAPI controllers
 builder.Services.AddControllers();
@@ -66,6 +84,9 @@ app.UseCors("AllowAll");
 // Configure the HTTP request pipeline
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Map the controllers
 app.UseEndpoints(endpoints =>

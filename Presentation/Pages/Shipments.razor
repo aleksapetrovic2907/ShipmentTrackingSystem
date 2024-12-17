@@ -11,7 +11,7 @@
 <h1>Shipments List</h1>
 
 <div class="search-bar">
-    <input type="text" placeholder="Search by Name" @bind="searchTerm" @bind:after="ApplyFilters" />
+    <input type="text" placeholder="Search by Name" @bind="searchTerm" @oninput="e => OnSearchTermChanged(e)" />
     <select @bind="selectedStatus" @bind:after="ApplyFilters">
         <option value="">All Statuses</option>
         <option value="InWarehouse">In Warehouse</option>
@@ -93,6 +93,12 @@ else
             .Where(s => string.IsNullOrWhiteSpace(searchTerm) || s.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
             .Where(s => string.IsNullOrWhiteSpace(selectedStatus) || s.Status.ToString() == selectedStatus)
             .ToList();
+    }
+
+    private void OnSearchTermChanged(ChangeEventArgs e)
+    {
+        searchTerm = e.Value?.ToString() ?? string.Empty;
+        ApplyFilters();
     }
 
     private async Task DeleteShipment(Guid shipmentId)

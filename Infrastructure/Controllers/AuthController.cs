@@ -10,14 +10,26 @@ namespace Infrastructure.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
+        /// <summary>
+        /// Logs the user in and generates a JWT token.
+        /// </summary>
+        /// <returns>A JWT token for authenticated access.</returns>
+        /// <response code="200">Returns the generated JWT token.</response>
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Login()
         {
             var token = GenerateJwtToken();
             return Ok(new { Token = token });
         }
 
+        /// <summary>
+        /// Logs the user out.
+        /// </summary>
+        /// <returns>A success message for logout operation.</returns>
+        /// <response code="200">Indicates successful logout.</response>
         [HttpPost("logout")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Logout()
         {
             return Ok(new { Message = "Logged out successfully" });

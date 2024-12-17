@@ -8,7 +8,7 @@
 @inject AuthService AuthService
 @inject IJSRuntime JS
 
-<h3>Shipments List</h3>
+<h1>Shipments List</h1>
 
 @if (shipments == null)
 {
@@ -27,6 +27,7 @@ else
                 <th>Status</th>
                 <th>Created At</th>
                 <th>Delivered At</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -41,15 +42,17 @@ else
                     <td>@shipment.Status</td>
                     <td>@shipment.CreatedAt.ToShortDateString()</td>
                     <td>@(shipment.DeliveredAt?.ToShortDateString() ?? "Not Delivered")</td>
-
-                    @if (AuthService.IsAuthenticated)
-                    {
-                        <td>
-                            <button @onclick="() => DeleteShipment(shipment.Id)">
+                    <td>
+                        <button class="action-btn btn-warning" @onclick="() => NavigateToShipment(shipment.Id)">
+                            Edit
+                        </button>
+                        @if (AuthService.IsAuthenticated)
+                        {
+                            <button class="action-btn btn-danger" @onclick="() => DeleteShipment(shipment.Id)">
                                 Delete
                             </button>
-                        </td>
-                    }
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
@@ -86,4 +89,6 @@ else
             Console.WriteLine($"Failed to delete shipment {shipmentId}");
         }
     }
+
+    private void NavigateToShipment(Guid id) => NavManager.NavigateTo($"/shipments/edit/{id}");
 }

@@ -67,7 +67,6 @@ namespace Infrastructure.Controllers
         /// <returns>The created shipment with its assigned ID.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult AddShipment([FromBody] Shipment shipment)
         {
             _shipmentService.AddShipment(shipment);

@@ -33,6 +33,7 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Status</th>
                 <th>Created At</th>
@@ -44,6 +45,7 @@ else
             @foreach (var shipment in filteredShipments)
             {
                 <tr>
+                    <td>@shipment.Id</td>
                     <td>
                         <NavLink class="link" href=@($"/shipments/{shipment.Id}")>
                             @shipment.Name

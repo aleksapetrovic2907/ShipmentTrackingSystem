@@ -1,9 +1,13 @@
 ﻿@using Domain.Models
+@using Services
 
 @page "/shipments/{Id:guid}"
 
 @inject HttpClient Http
 @inject NavigationManager NavManager
+@inject ShipmentService ShipmentService
+@inject AuthService AuthService
+@inject IJSRuntime JS
 
 <h1>Shipment Details</h1>
 
@@ -16,11 +20,12 @@ else
     <table class="table">
         <thead>
             <tr>
-                <td>ID</td>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Status</th>
                 <th>Created At</th>
                 <th>Delivered At</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +35,17 @@ else
                 <td>@shipment.Status</td>
                 <td>@shipment.CreatedAt.ToShortDateString()</td>
                 <td>@(shipment.DeliveredAt?.ToShortDateString() ?? "Not Delivered")</td>
+                <td>
+                    <button class="action-btn btn-warning" @onclick="() => NavigateToShipment(shipment.Id)">
+                        Edit
+                    </button>
+                    @if (AuthService.IsAuthenticated)
+                    {
+                        <button class="action-btn btn-danger" @onclick="() => DeleteShipment(shipment.Id)">
+                            Delete
+                        </button>
+                    }
+                </td>
             </tr>
         </tbody>
     </table>
@@ -45,6 +61,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        AuthService.OnAuthStateChanged += StateHasChanged;
+
         try
         {
             shipment = await Http.GetFromJsonAsync<Shipment>($"shipments/{Id}");
@@ -59,4 +77,23 @@ else
     {
         NavManager.NavigateTo("/shipments");
     }
+
+    private async Task DeleteShipment(Guid shipmentId)
+    {
+        bool confirmed = await JS.InvokeAsync<bool>("confirm", "Delete this shipment?");
+
+        if (!confirmed) return;
+
+        if (await ShipmentService.DeleteShipmentAsync(shipmentId))
+        {
+            Console.WriteLine($"Shipment {shipmentId} deleted successfully.");
+            NavigateBack();
+        }
+        else
+        {
+            Console.WriteLine($"Failed to delete shipment {shipmentId}");
+        }
+    }
+
+    private void NavigateToShipment(Guid id) => NavManager.NavigateTo($"/shipments/edit/{id}");
 }
